@@ -1,11 +1,34 @@
 <template>
   <div class="project">
-    <h1 class="subheading grey--text">Aktuelle Temperatur</h1>
+    <v-card>
+      <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg" aspect-ratio="2.75"></v-img>
 
-    <v-container class="my-5">
-      Temperatur vom Sensor...
-    </v-container>  
-  
+      <v-card-title primary-title>
+        <div>
+          <h3 class="headline mb-0">Aktuelle Temperatur: {{ temperature[0].t }}°</h3>
+        </div>
+      </v-card-title>
+    </v-card>
   </div>
-
 </template>
+
+<script>
+import sensorApi from "@/services/SensorApi";
+export default {
+  data() {
+    return {
+      temperature: []
+    };
+  },
+  mounted() {
+    sensorApi
+      .getData()
+      .then(response => {
+        this.temperature = response;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+};
+</script>
